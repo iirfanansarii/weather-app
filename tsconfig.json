@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
+    "target": "es2019",
     "module": "commonjs",
+    "outDir": "./dist",
     "declaration": true,
-    "removeComments": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": false,
+    "incremental": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "strictPropertyInitialization": false,
+    "lib": ["ES2019"]
+  },
+  "include": ["src", "test"],
+  "exclude": ["node_modules", "dist"]
 }

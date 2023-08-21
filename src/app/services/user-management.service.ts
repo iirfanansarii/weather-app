@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from 'src/entities/User';
-import logger from 'logger';
+import { UserEntity } from '../entities/users.entity';
 
 @Injectable()
-export class UsersService {
+export class UserManagementService {
+  /**
+   *@constructor
+   * @param userEntity:UserEntity
+   */
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly userEntity: Repository<UserEntity>,
   ) {}
 
   /**
@@ -16,11 +19,12 @@ export class UsersService {
    * @returns A Promise that resolves to an array of UserEntity.
    */
   async getAllUsers(): Promise<UserEntity[]> {
-    const users = await this.userRepository.find();
-    if (!users) {
-      throw new Error('No users found.');
-    }
-    return users;
+    return this.userEntity.find({
+      select: {
+        name: true,
+        email: true,
+      },
+    });
   }
 
   /**
@@ -30,8 +34,8 @@ export class UsersService {
    */
   async createNewUser(userData: any) {
     try {
-      const newUser = this.userRepository.create(userData);
-      const savedUser = await this.userRepository.save(newUser);
+      const newUser = this.userEntity.create(userData);
+      const savedUser = await this.userEntity.save(newUser);
       return savedUser;
     } catch (error) {
       console.error('Error creating user:', error);

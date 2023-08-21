@@ -7,10 +7,10 @@ const myFormat = printf((info) => {
   return `${info.timestamp} ${info.level} ${info.message}`;
 });
 
-const logger = createLogger({
+const Logger = createLogger({
   level: level,
   format: combine(timestamp(), myFormat),
   transports: [new transports.Console()],
 });
 
-export default logger;
+export default Logger;
