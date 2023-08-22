@@ -1,3 +1,3 @@
-import { UserEntity } from '../entities/users.entity';
+import { EmployeeEntity } from '../entities/employee.entity';
 
-export const Master = [UserEntity];
+export const Master = [EmployeeEntity];

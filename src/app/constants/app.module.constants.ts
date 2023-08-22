@@ -1,8 +1,8 @@
 import { AppController } from '../controllers/app.controller';
-import { UserManagementController } from '../controllers/user-management.controller';
+import { EmployeeManagementController } from '../controllers/employee-management.controller';
 import { AppService } from '../services/app.service';
-import { UserManagementService } from '../services/user-management.service';
+import { EmployeeManagementService } from '../services/employee-management.service';
 
-export const AppModuleControllers = [AppController, UserManagementController];
+export const AppModuleControllers = [AppController, EmployeeManagementController];
 
-export const AppModuleService = [AppService, UserManagementService];
+export const AppModuleService = [AppService, EmployeeManagementService];

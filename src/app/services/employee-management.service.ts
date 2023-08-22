@@ -1,28 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../entities/users.entity';
+import { EmployeeEntity } from '../entities/employee.entity';
 
 @Injectable()
-export class UserManagementService {
+export class EmployeeManagementService {
   /**
    *@constructor
-   * @param userEntity:UserEntity
+   * @param employeeEntity:UserEntity
    */
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly userEntity: Repository<UserEntity>,
+    @InjectRepository(EmployeeEntity)
+    private readonly employeeEntity: Repository<EmployeeEntity>,
   ) {}
 
   /**
    * Retrieves all users from the database.
    * @returns A Promise that resolves to an array of UserEntity.
    */
-  async getAllUsers(): Promise<UserEntity[]> {
-    return this.userEntity.find({
+  async getAllUsers(): Promise<EmployeeEntity[]> {
+    return this.employeeEntity.find({
       select: {
-        name: true,
-        email: true,
+        username: true,
+        emailAddress: true,
       },
     });
   }
@@ -34,8 +34,8 @@ export class UserManagementService {
    */
   async createNewUser(userData: any) {
     try {
-      const newUser = this.userEntity.create(userData);
-      const savedUser = await this.userEntity.save(newUser);
+      const newUser = this.employeeEntity.create(userData);
+      const savedUser = await this.employeeEntity.save(newUser);
       return savedUser;
     } catch (error) {
       console.error('Error creating user:', error);

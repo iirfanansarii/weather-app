@@ -1,15 +1,15 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { UserManagementService } from '../services/user-management.service';
+import { EmployeeManagementService } from '../services/employee-management.service';
 import { AddUserDto } from '../utility/dto/addUser.dto';
 
 @Controller('user-management')
-export class UserManagementController {
+export class EmployeeManagementController {
   /**
    *@constructor
    * @param userService:UserManagementService
    * called when the UserManagementController is created
    */
-  constructor(private readonly userService: UserManagementService) {}
+  constructor(private readonly userService: EmployeeManagementService) {}
 
   /**
    * @name : getAllUsers
