@@ -1,15 +1,15 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { EmployeeManagementService } from '../services/employee-management.service';
-import { AddUserDto } from '../utility/dto/addUser.dto';
+import { AddEmployeeDto } from '../utility/dto/addEmployee.dto';
 
-@Controller('user-management')
+@Controller('employee-management')
 export class EmployeeManagementController {
   /**
    *@constructor
-   * @param userService:UserManagementService
+   * @param employeeService:UserManagementService
    * called when the UserManagementController is created
    */
-  constructor(private readonly userService: EmployeeManagementService) {}
+  constructor(private readonly employeeService: EmployeeManagementService) {}
 
   /**
    * @name : getAllUsers
@@ -17,9 +17,19 @@ export class EmployeeManagementController {
    * @method : Get
    * @returns return array of the userList
    */
-  @Get('getAllUsers')
-  private getAllUsers() {
-    return this.userService.getAllUsers();
+  @Get('all/employees')
+  private getAllEmployees() {
+    return this.employeeService.getAllEmployee();
+  }
+
+  /**
+   * get all employee by email
+   * @param query
+   * @returns
+   */
+  @Get('employee')
+  private async getEmployeeById(@Query() query: any) {
+    return this.employeeService.getEmployeeById(query?.email, false);
   }
 
   /**
@@ -28,8 +38,11 @@ export class EmployeeManagementController {
    * @description:  Handles HTTP POST requests to create a new user.
    * @returns returns success or fail message
    */
-  @Post('/add/user')
-  private createNewUser(@Body() addUserDto: AddUserDto) {
-    return this.userService.createNewUser(addUserDto);
+  @Post('/add/employee')
+  private addNewEmployee(@Body() addEmployeeDetails: AddEmployeeDto) {
+    return this.employeeService.addEmployee(
+      addEmployeeDetails,
+      'demo@demo.com',
+    );
   }
 }

@@ -4,6 +4,7 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  VersionColumn,
 } from 'typeorm';
 
 @Entity({ name: 'employee' })
@@ -32,8 +33,8 @@ export class EmployeeEntity {
   @Column({ name: 'pin', nullable: true })
   pin: number;
 
-  @Column({ name: 'user_role', nullable: false })
-  role: string;
+  @Column({ name: 'password', nullable: true })
+  password: string;
 
   @Column({ name: 'is_active' })
   isActive: boolean;
@@ -52,4 +53,7 @@ export class EmployeeEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @VersionColumn({ name: 'version' })
+  version: number;
 }

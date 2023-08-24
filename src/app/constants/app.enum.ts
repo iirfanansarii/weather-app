@@ -3,6 +3,12 @@ export enum MessageType {
   Error = 'Error',
 }
 
+export enum OperationType {
+  Update = 'Update',
+  Create = 'Create',
+  Delete = 'Delete',
+}
+
 export enum ErrorMessage {
   BadRequest = 'Invalid Input Data',
   NotFound = 'Your not authorized access the Data.',
