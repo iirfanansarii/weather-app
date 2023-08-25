@@ -7,7 +7,7 @@ import {
   VersionColumn,
 } from 'typeorm';
 
-@Entity({ name: 'employee' })
+@Entity({ name: 'employees' })
 export class EmployeeEntity {
   @PrimaryColumn({ length: 100, name: 'id' })
   userId: string;

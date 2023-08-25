@@ -1,6 +1,8 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { EmployeeManagementService } from '../services/employee-management.service';
-import { AddEmployeeDto } from '../utility/dto/addEmployee.dto';
+import { AddEmployeeDto } from '../utility/dto/add-employee.dto';
+import { EditEmployeeDto } from '../utility/dto/edit-employee.dto';
+import { OperationType } from '../constants/app.enum';
 
 @Controller('employee-management')
 export class EmployeeManagementController {
@@ -40,9 +42,20 @@ export class EmployeeManagementController {
    */
   @Post('/add/employee')
   private addNewEmployee(@Body() addEmployeeDetails: AddEmployeeDto) {
-    return this.employeeService.addEmployee(
-      addEmployeeDetails,
-      'demo@demo.com',
+    return this.employeeService.addEmployee(addEmployeeDetails);
+  }
+
+  /**
+   * @method POST
+   * @param editEmployeeDto
+   * @returns
+   */
+  @Post('update/user')
+  private updateEmployeeDetails(@Body() editEmployeeDto: EditEmployeeDto) {
+    return this.employeeService.updateEmployee(
+      editEmployeeDto,
+      OperationType.Update,
+      '',
     );
   }
 }
