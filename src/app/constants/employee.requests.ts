@@ -2,7 +2,7 @@ import { OperationType } from './app.enum';
 
 export class EmployeeRequest {
   userId: string;
-  username: string;
+  employeeName: string;
   emailAddress: string;
   accessTypeId: string;
   hasGlobalAccess: boolean;
@@ -24,7 +24,7 @@ export class EmployeeRequest {
    */
   constructor(data: any, key: string, logInUser?: string) {
     this.userId = data.userId?.toLowerCase();
-    this.username = data.username;
+    this.employeeName = data.employeeName;
     this.emailAddress = data.emailAddress;
     this.accessTypeId = data?.accessTypeId;
     this.hasGlobalAccess = true;

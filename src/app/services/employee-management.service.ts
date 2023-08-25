@@ -161,7 +161,7 @@ export class EmployeeManagementService {
     }
     if (responseResult) {
       return new Response(
-        'User ' + responseResult.username + ' has been added Successfully.',
+        'User ' + responseResult.employeeName + ' has been added Successfully.',
       );
     }
   }
@@ -184,7 +184,7 @@ export class EmployeeManagementService {
       .save(dataToUpdate)
       .then(() =>
         operationType === OperationType.Delete
-          ? dataToUpdate.username + ' is deleted successfully.'
+          ? dataToUpdate.employeeName + ' is deleted successfully.'
           : 'Changes for ' + dataToUpdate.emailAddress + ' saved Successfully.',
       );
     return new Response(message);

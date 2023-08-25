@@ -17,11 +17,11 @@ export class AddEmployeeDto {
   @MaxLength(100)
   readonly userId: string;
 
-  @IsNotEmpty({ message: 'userName is mandatory' })
+  @IsNotEmpty({ message: 'employeeName is mandatory' })
   @IsString()
   @Length(1, 64)
-  @Matches(/^[a-zA-Z][a-zA-Z ]*$/, { message: 'userName should be valid' })
-  readonly userName: string;
+  @Matches(/^[a-zA-Z][a-zA-Z ]*$/, { message: 'employeeName should be valid' })
+  readonly employeeName: string;
 
   @IsEmail()
   @IsNotEmpty({ message: 'email is is mandatory' })
