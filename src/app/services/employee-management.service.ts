@@ -11,6 +11,7 @@ export class EmployeeManagementService {
   /**
    *@constructor
    * @param employeeEntity:UserEntity
+   * called when EmployeeManagementService is created
    */
   constructor(
     @InjectRepository(EmployeeEntity)
@@ -18,8 +19,9 @@ export class EmployeeManagementService {
   ) {}
 
   /**
-   * Retrieves all users from the database.
-   * @returns A Promise that resolves to an array of UserEntity.
+   * @name : getAllEmployee
+   * @description: Retrieves all employees from the database.
+   * @returns A Promise that resolves to an array of EmployeeEntity.
    */
   async getAllEmployee(): Promise<Response> {
     const employee = await this.getAllEmployeeDetailQuery(true).execute();
@@ -27,9 +29,9 @@ export class EmployeeManagementService {
   }
 
   /**
-   * get all employee details
+   * @description:  get all employees
    * @param includeDeleted
-   * @returns
+   * @returns Returns query
    */
   getAllEmployeeDetailQuery(
     includeDeleted: boolean,
@@ -39,24 +41,27 @@ export class EmployeeManagementService {
   }
 
   /**
-   * get employee by email id
-   * @param employeeId
-   * @returns
+   * @name : getEmployeeById
+   * @description: get employee by emailId
+   * @input : employeeId,includeDeletedEmployee(true : look in deleted employee as well, false : not look in deleted employee )
+   * @return :  Return Object of EmployeeEntity who matches with employeeId
+   *
    */
   async getEmployeeById(
     employeeId: string,
-    includeDeletedUser: boolean,
+    includeDeletedEmployee: boolean,
   ): Promise<any> {
-    const responseData = includeDeletedUser
+    const responseData = includeDeletedEmployee
       ? await this.getSingleEmployeeQuery(employeeId).execute()
       : await this.getSingleActiveEmployeeQuery(employeeId).execute();
     return new Response(MessageType.Success, responseData);
   }
 
   /**
-   * get single active employee query
+   * @name: getSingleActiveEmployeeQuery
+   * @description: get single active employee by employeeId
    * @param employeeId
-   * @returns
+   * @returns returns query
    */
   getSingleActiveEmployeeQuery(
     employeeId: string,
@@ -73,9 +78,10 @@ export class EmployeeManagementService {
   }
 
   /**
-   *
+   * @name: getSingleEmployeeQuery
+   * @description: get single employee by employeeId
    * @param employeeId
-   * @returns
+   * @returns returns query
    */
   getSingleEmployeeQuery(
     employeeId: string,
@@ -90,8 +96,10 @@ export class EmployeeManagementService {
   }
 
   /**
-   * create query to get all users data
-   * @returns
+   * @name : createSelectQueryForAllEmployeeDetails
+   * @description: create query to get all employee data
+   * @param: includeDeleted - include deleted employee or not
+   * @returns Returns query
    */
   private createSelectQueryForAllEmployeeDetails(
     includeDeleted: boolean,
@@ -113,11 +121,12 @@ export class EmployeeManagementService {
   }
 
   /**
-   *
+   * @name createDataToInsertUpdate
+   * @description : get all employees arrays
    * @param data
    * @param key
    * @param logInUser
-   * @returns
+   * @returns: returns arrays of employees
    */
   private createDataToInsertUpdate(data: any, key: string, logInUser?: string) {
     return new EmployeeRequest(data, key, logInUser);

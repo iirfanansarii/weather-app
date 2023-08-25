@@ -9,15 +9,15 @@ export class EmployeeManagementController {
   /**
    *@constructor
    * @param employeeService:UserManagementService
-   * called when the UserManagementController is created
+   * called when the EmployeeManagementService is created
    */
   constructor(private readonly employeeService: EmployeeManagementService) {}
 
   /**
-   * @name : getAllUsers
-   * @description : get all fryday flavors users
+   * @name: getAllUsers
    * @method : Get
-   * @returns return array of the userList
+   * @description : get all fryday flavors users
+   * @returns return array of the employee list
    */
   @Get('all/employees')
   private getAllEmployees() {
@@ -25,9 +25,11 @@ export class EmployeeManagementController {
   }
 
   /**
-   * get all employee by email
-   * @param query
-   * @returns
+   * @name : getEmployeeById
+   * @method: GET
+   * @description: get employee by emailId
+   * @queryParam : validate employee email from query parameters
+   * @returns Return object of employee details
    */
   @Get('employee')
   private async getEmployeeById(@Query() query: any) {
@@ -35,9 +37,10 @@ export class EmployeeManagementController {
   }
 
   /**
-   * @name: createNewUser
-   * @param addUserDto:AddUserDto
+   * @name: addNewEmployee
+   * @method: Post
    * @description:  Handles HTTP POST requests to create a new user.
+   * @param addUserDto:AddUserDto
    * @returns returns success or fail message
    */
   @Post('/add/employee')
@@ -46,9 +49,11 @@ export class EmployeeManagementController {
   }
 
   /**
+   * @name: updateEmployeeDetails
    * @method POST
+   * @description : insert employee data into table
    * @param editEmployeeDto
-   * @returns
+   * @returns returns success or fail message
    */
   @Post('update/user')
   private updateEmployeeDetails(@Body() editEmployeeDto: EditEmployeeDto) {
