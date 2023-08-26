@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { EmployeeManagementService } from '../services/employee-management.service';
-import { AddEmployeeDto } from '../utility/dto/add-employee.dto';
 import { EditEmployeeDto } from '../utility/dto/edit-employee.dto';
 import { OperationType } from '../constants/app.enum';
+import { ApiTags } from '@nestjs/swagger';
+import { AuthorizeEmployee } from '../guards/authorize.guards';
 
 @Controller('employee-management')
+@ApiTags('employee')
+@UseGuards(AuthorizeEmployee)
 export class EmployeeManagementController {
   /**
    *@constructor
@@ -34,18 +37,6 @@ export class EmployeeManagementController {
   @Get('employee')
   private async getEmployeeById(@Query() query: any) {
     return this.employeeService.getEmployeeById(query?.email, false);
-  }
-
-  /**
-   * @name: addNewEmployee
-   * @method: Post
-   * @description:  Handles HTTP POST requests to create a new user.
-   * @param addUserDto:AddUserDto
-   * @returns returns success or fail message
-   */
-  @Post('/add/employee')
-  private addNewEmployee(@Body() addEmployeeDetails: AddEmployeeDto) {
-    return this.employeeService.addEmployee(addEmployeeDetails);
   }
 
   /**

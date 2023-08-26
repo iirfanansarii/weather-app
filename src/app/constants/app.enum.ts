@@ -9,6 +9,10 @@ export enum OperationType {
   Delete = 'Delete',
 }
 
+export enum UserMessageCheckKeys {
+  User = 'User',
+}
+
 export enum ErrorMessage {
   BadRequest = 'Invalid Input Data',
   NotFound = 'Your not authorized access the Data.',

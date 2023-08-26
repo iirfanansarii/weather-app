@@ -68,8 +68,8 @@ export class EmployeeManagementService {
   ): SelectQueryBuilder<EmployeeEntity> {
     if (employeeId) {
       const query = this.createSelectQueryForAllEmployeeDetails(false);
-      query.where(` email = :userId AND is_deleted = 0`, {
-        userId: employeeId.toLowerCase(),
+      query.where(` employee_email = :employeeId AND is_deleted = 0`, {
+        employeeId: employeeId.toLowerCase(),
       });
       return query;
     } else {
@@ -88,7 +88,9 @@ export class EmployeeManagementService {
   ): SelectQueryBuilder<EmployeeEntity> {
     if (employeeId) {
       const query = this.createSelectQueryForAllEmployeeDetails(true);
-      query.where(`email = :id `, { id: employeeId.toLowerCase() });
+      query.where(`employee_email = :emailAddress `, {
+        emailAddress: employeeId.toLowerCase(),
+      });
       return query;
     } else {
       throw new Error('employeeId is mandatory');
@@ -107,10 +109,14 @@ export class EmployeeManagementService {
     const query = this.employeeEntity.createQueryBuilder('FFUM').select(
       `DISTINCT 
         FFUM.id,
-        FFUM.name,
-        FFUM.phone_number ,
+        FFUM.employee_name,
+        FFUM.employee_email,
+        FFUM.access_type_id,
+        FFUM.has_global_access,
+        FFUM.role_id,
+        FFUM.phone_number,
+        FFUM.password,
         FFUM.pin,
-        FFUM.roleId,
         FFUM.is_active,
         FFUM.is_deleted`,
     );
@@ -128,42 +134,8 @@ export class EmployeeManagementService {
    * @param logInUser
    * @returns: returns arrays of employees
    */
-  private createDataToInsertUpdate(data: any, key: string, logInUser?: string) {
+  createDataToInsertUpdate(data: any, key: string, logInUser?: string) {
     return new EmployeeRequest(data, key, logInUser);
-  }
-
-  /**
-   * Creates a new user in the database.
-   * @param userData - The data for creating a new user.
-   * @returns A Promise that resolves to the newly created user.
-   */
-  async addEmployee(data: any, loggedInEmployee?: string) {
-    const results = await this.getEmployeeById(data?.userId, true);
-    let responseResult: any;
-    if (results.content.length === 0) {
-      const dataToInsert: EmployeeRequest = this.createDataToInsertUpdate(
-        data,
-        OperationType.Create,
-        loggedInEmployee,
-      );
-      responseResult = await this.employeeEntity.save(dataToInsert);
-    } else if (
-      results?.content[0]?.userId.toLowerCase() === data.userId.toLowerCase() &&
-      results?.content[0]?.isDeleted
-    ) {
-      data.version = results.content[0].version;
-      responseResult = await this.updateEmployee(
-        data,
-        OperationType.Update,
-        loggedInEmployee,
-      );
-      responseResult.value = data.userId.toLowerCase();
-    }
-    if (responseResult) {
-      return new Response(
-        'User ' + responseResult.employeeName + ' has been added Successfully.',
-      );
-    }
   }
 
   /**

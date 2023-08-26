@@ -10,12 +10,12 @@ import {
 @Entity({ name: 'employees' })
 export class EmployeeEntity {
   @PrimaryColumn({ length: 100, name: 'id' })
-  userId: string;
+  employeeId: string;
 
-  @Column({ length: 100, name: 'name' })
-  username: string;
+  @Column({ length: 100, name: 'employee_name' })
+  employeeName: string;
 
-  @Column({ name: 'email', nullable: false })
+  @Column({ name: 'employee_email', nullable: false })
   emailAddress: string;
 
   @Column({ name: 'access_type_id', length: 50 })
@@ -33,7 +33,7 @@ export class EmployeeEntity {
   @Column({ name: 'pin', nullable: true })
   pin: number;
 
-  @Column({ name: 'password', nullable: true })
+  @Column({ name: 'password', nullable: false, length: 100 })
   password: string;
 
   @Column({ name: 'is_active' })

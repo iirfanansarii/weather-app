@@ -1,7 +1,7 @@
 import { OperationType } from './app.enum';
 
 export class EmployeeRequest {
-  userId: string;
+  employeeId: string;
   employeeName: string;
   emailAddress: string;
   accessTypeId: string;
@@ -23,7 +23,7 @@ export class EmployeeRequest {
    * called when the EmployeeRequest is created
    */
   constructor(data: any, key: string, logInUser?: string) {
-    this.userId = data.userId?.toLowerCase();
+    this.employeeId = data.employeeId?.toLowerCase();
     this.employeeName = data.employeeName;
     this.emailAddress = data.emailAddress;
     this.accessTypeId = data?.accessTypeId;

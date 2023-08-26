@@ -15,7 +15,7 @@ export class AddEmployeeDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
-  readonly userId: string;
+  readonly employeeId: string;
 
   @IsNotEmpty({ message: 'employeeName is mandatory' })
   @IsString()
