@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { DecodedTokenData } from '../../interfaces/decoded-token.interface';
 
 @Injectable()
 export class SecurityUtilityService {
@@ -42,5 +43,21 @@ export class SecurityUtilityService {
     payload: Record<string, string | number | string[]>,
   ): Promise<string> {
     return this.jwtService.sign(payload);
+  }
+
+  /**
+   * @name : decodeJwtToken
+   * @description : decode jwt token and returns decoded data
+   * @param token
+   * @returns jwt decoded data
+   */
+  async decodeJwtToken(token: string): Promise<DecodedTokenData> {
+    if (token.search('bearer') >= 0) {
+      token = token.replace('bearer', '').trim();
+    }
+    if (token.search('Bearer') >= 0) {
+      token = token.replace('Bearer', '').trim();
+    }
+    return this.jwtService.decode(token) as DecodedTokenData;
   }
 }

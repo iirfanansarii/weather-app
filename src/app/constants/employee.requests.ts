@@ -22,7 +22,7 @@ export class EmployeeRequest {
    * @param key :string (if its 'A' create Add Employee Request else create Update Employee Request )
    * called when the EmployeeRequest is created
    */
-  constructor(data: any, key: string, logInUser?: string) {
+  constructor(data: any, key: string, logInEmployee?: string) {
     this.employeeId = data.employeeId?.toLowerCase();
     this.employeeName = data.employeeName;
     this.emailAddress = data.emailAddress;
@@ -39,17 +39,17 @@ export class EmployeeRequest {
     }
     switch (key) {
       case OperationType.Create: {
-        this.createdBy = logInUser || '';
+        this.createdBy = logInEmployee || '';
         this.isDeleted = false;
         break;
       }
       case OperationType.Update: {
-        this.updatedBy = logInUser || '';
+        this.updatedBy = logInEmployee || '';
         this.isDeleted = false;
         break;
       }
       case OperationType.Delete: {
-        this.updatedBy = logInUser || '';
+        this.updatedBy = logInEmployee || '';
         this.isDeleted = true;
         break;
       }

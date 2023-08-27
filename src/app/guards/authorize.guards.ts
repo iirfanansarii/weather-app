@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
-import { JwtService } from '@nestjs/jwt';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { EmployeeManagementService } from '../services/employee-management.service';
+import { SecurityUtilityService } from '../utility/security-utils';
 
 @Injectable()
 export class AuthorizeEmployee implements CanActivate {
@@ -12,8 +12,8 @@ export class AuthorizeEmployee implements CanActivate {
    * called when the AuthorizeEmployee is created
    */
   constructor(
-    private jwtService: JwtService,
     private employeeService: EmployeeManagementService,
+    private securityUtilityService: SecurityUtilityService,
   ) {}
 
   /**
@@ -24,16 +24,11 @@ export class AuthorizeEmployee implements CanActivate {
    */
   private async checkEmployeeIsDeletedOrNot(request: any): Promise<boolean> {
     if (!!request.headers?.authorization) {
-      let token = request.headers?.authorization?.toString().trim();
-      if (token.search('bearer') >= 0) {
-        token = token.replace('bearer', '').trim();
-      }
-      if (token.search('Bearer') >= 0) {
-        token = token.replace('Bearer', '').trim();
-      }
-      const tokenData: any = this.jwtService.decode(token);
+      const token = request.headers?.authorization?.toString().trim();
+      const tokenData = await this.securityUtilityService.decodeJwtToken(token);
+      request.employee = { email: tokenData.email, role: tokenData.role };
       const employeeDetails: any = await this.employeeService
-        .getEmployeeById(tokenData.email, true)
+        .getEmployeeById(tokenData.email, false)
         .then((res) => res.content[0]);
       if (!!employeeDetails) {
         return !employeeDetails?.isDeleted;

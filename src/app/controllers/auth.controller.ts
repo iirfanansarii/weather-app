@@ -1,8 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { AddEmployeeDto } from '../utility/dto/add-employee.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { LoginEmployeeDto } from '../utility/dto/login-employee.dto';
 import { AuthService } from '../services/auth-service';
+import { AddEmployeeDto, LoginEmployeeDto } from '../utility/dto';
 
 @Controller('employee-auth')
 @ApiTags('auth')

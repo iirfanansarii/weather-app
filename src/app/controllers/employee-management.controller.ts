@@ -1,15 +1,15 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { EmployeeManagementService } from '../services/employee-management.service';
-import { EditEmployeeDto } from '../utility/dto/edit-employee.dto';
 import { AppRoles, OperationType } from '../constants/app.enum';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthorizeEmployee } from '../guards/authorize.guards';
-import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../guards/roles.guard';
+import { Identity } from '../decorators/identity.decorator';
+import { EditEmployeeDto, EmployeeIdentity } from '../utility/dto';
 
 @Controller('employee-management')
 @ApiTags('employee')
-@UseGuards(AuthorizeEmployee, RolesGuard)
+@UseGuards(AuthorizeEmployee)
 export class EmployeeManagementController {
   /**
    *@constructor
@@ -52,11 +52,14 @@ export class EmployeeManagementController {
    */
   @Post('update/user')
   @Roles(AppRoles.Admin)
-  private updateEmployeeDetails(@Body() editEmployeeDto: EditEmployeeDto) {
+  private updateEmployeeDetails(
+    @Body() editEmployeeDto: EditEmployeeDto,
+    @Identity() employee: EmployeeIdentity,
+  ) {
     return this.employeeService.updateEmployee(
       editEmployeeDto,
       OperationType.Update,
-      '',
+      employee.email,
     );
   }
 }

@@ -37,8 +37,7 @@ export class EmployeeManagementService {
   getAllEmployeeDetailQuery(
     includeDeleted: boolean,
   ): SelectQueryBuilder<EmployeeEntity> {
-    const dbQuery = this.createSelectQueryForAllEmployeeDetails(includeDeleted);
-    return dbQuery;
+    return this.createSelectQueryForAllEmployeeDetails(includeDeleted);
   }
 
   /**
@@ -122,10 +121,10 @@ export class EmployeeManagementService {
         FFUM.has_global_access,
         FFUM.role_id,
         FFUM.phone_number,
-        FFUM.password,
         FFUM.pin,
         FFUM.is_active,
-        FFUM.is_deleted`,
+        FFUM.is_deleted,
+        FFUM.password`,
     );
     if (!includeDeleted) {
       query.where(`FFUM.isDeleted = 0`);
@@ -141,8 +140,8 @@ export class EmployeeManagementService {
    * @param logInUser
    * @returns: returns arrays of employees
    */
-  createDataToInsertUpdate(data: any, key: string, logInUser?: string) {
-    return new EmployeeRequest(data, key, logInUser);
+  createDataToInsertUpdate(data: any, key: string, loginEmployee?: string) {
+    return new EmployeeRequest(data, key, loginEmployee);
   }
 
   /**
@@ -150,14 +149,18 @@ export class EmployeeManagementService {
    * @name updateEmployee
    * @param data
    * @param operationType
-   * @param logInUserId
+   * @param loginEmployeeId
    * @returns
    */
-  async updateEmployee(data: any, operationType: string, logInUserId?: string) {
+  async updateEmployee(
+    data: any,
+    operationType: string,
+    loginEmployeeId?: string,
+  ) {
     const dataToUpdate: EmployeeRequest = this.createDataToInsertUpdate(
       data,
       operationType,
-      logInUserId,
+      loginEmployeeId,
     );
     const message = await this.employeeEntity
       .save(dataToUpdate)
