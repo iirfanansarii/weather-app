@@ -12,8 +12,8 @@ export class CustomHttpExceptionFilter extends BaseExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
-    const request = ctx.getRequest();
-    const requestId = request.__context_metadata.requestId;
+    // const request = ctx.getRequest();
+    // const requestId = request.__context_metadata.requestId;
     const status = exception.status || HttpStatus.INTERNAL_SERVER_ERROR;
     let message;
 
@@ -45,7 +45,7 @@ export class CustomHttpExceptionFilter extends BaseExceptionFilter {
       stack: exception.stack,
     };
     logger.error(
-      requestId +
+      'requestId' +
         ' : ' +
         loggerError.name +
         ' - ' +
@@ -54,7 +54,7 @@ export class CustomHttpExceptionFilter extends BaseExceptionFilter {
     );
     response.status(status).json({
       statusCode: status,
-      requestId,
+      requestId: 'requestId',
       message,
     });
   }

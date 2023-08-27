@@ -1,13 +1,15 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { EmployeeManagementService } from '../services/employee-management.service';
 import { EditEmployeeDto } from '../utility/dto/edit-employee.dto';
-import { OperationType } from '../constants/app.enum';
+import { AppRoles, OperationType } from '../constants/app.enum';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthorizeEmployee } from '../guards/authorize.guards';
+import { RolesGuard } from '../guards/roles.guard';
+import { Roles } from '../guards/roles.guard';
 
 @Controller('employee-management')
 @ApiTags('employee')
-@UseGuards(AuthorizeEmployee)
+@UseGuards(AuthorizeEmployee, RolesGuard)
 export class EmployeeManagementController {
   /**
    *@constructor
@@ -23,6 +25,7 @@ export class EmployeeManagementController {
    * @returns return array of the employee list
    */
   @Get('all/employees')
+  @Roles(AppRoles.Admin)
   private getAllEmployees() {
     return this.employeeService.getAllEmployee();
   }
@@ -35,6 +38,7 @@ export class EmployeeManagementController {
    * @returns Return object of employee details
    */
   @Get('employee')
+  @Roles(AppRoles.Admin)
   private async getEmployeeById(@Query() query: any) {
     return this.employeeService.getEmployeeById(query?.email, false);
   }
@@ -47,6 +51,7 @@ export class EmployeeManagementController {
    * @returns returns success or fail message
    */
   @Post('update/user')
+  @Roles(AppRoles.Admin)
   private updateEmployeeDetails(@Body() editEmployeeDto: EditEmployeeDto) {
     return this.employeeService.updateEmployee(
       editEmployeeDto,

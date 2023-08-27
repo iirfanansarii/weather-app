@@ -8,6 +8,11 @@ export enum OperationType {
   Create = 'Create',
   Delete = 'Delete',
 }
+export enum AppRoles {
+  Admin = 'ADMIN',
+  User = 'USER',
+  Employee = 'EMPLOYEE',
+}
 
 export enum UserMessageCheckKeys {
   User = 'User',

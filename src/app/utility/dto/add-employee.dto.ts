@@ -10,6 +10,7 @@ import {
   Length,
   MaxLength,
 } from 'class-validator';
+import { AppRoles } from '../../constants/app.enum';
 
 export class AddEmployeeDto {
   @IsNotEmpty()
@@ -34,15 +35,15 @@ export class AddEmployeeDto {
   @IsNotEmpty({ message: 'accessTypeId is mandatory' })
   @IsString()
   @Length(1, 50)
-  accessTypeId: string;
+  readonly accessTypeId: string;
 
   @IsNotEmpty()
   @IsBoolean()
-  hasGlobalAccess: boolean;
+  readonly hasGlobalAccess: boolean;
 
   @IsString()
   @IsNotEmpty()
-  readonly roleId: string;
+  readonly roleId: AppRoles;
 
   @IsNotEmpty()
   @IsString()

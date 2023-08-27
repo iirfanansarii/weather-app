@@ -39,7 +39,7 @@ export class SecurityUtilityService {
    * @returns returns jwt token
    */
   async createJwtToken(
-    payload: Record<string, string | number>,
+    payload: Record<string, string | number | string[]>,
   ): Promise<string> {
     return this.jwtService.sign(payload);
   }

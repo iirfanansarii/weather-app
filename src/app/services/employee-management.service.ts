@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { EmployeeEntity } from '../entities/employee.entity';
 import { Response } from '../constants/response';
 import { MessageType, OperationType } from '../constants/app.enum';
 import { EmployeeRequest } from '../constants/employee.requests';
+import { ErrorType } from '../utility/data-validate-exception-handlers/error-types';
 
 @Injectable()
 export class EmployeeManagementService {
@@ -54,6 +55,12 @@ export class EmployeeManagementService {
     const responseData = includeDeletedEmployee
       ? await this.getSingleEmployeeQuery(employeeId).execute()
       : await this.getSingleActiveEmployeeQuery(employeeId).execute();
+    if (responseData.length == 0) {
+      throw new HttpException(
+        { message: 'No User Found' },
+        ErrorType.unProcess.errorCode,
+      );
+    }
     return new Response(MessageType.Success, responseData);
   }
 
