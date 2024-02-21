@@ -1,20 +1,14 @@
 import { AppController } from '../controllers/app.controller';
-import { AuthController } from '../controllers/auth.controller';
-import { EmployeeManagementController } from '../controllers/employee-management.controller';
+import { LocationController } from '../controllers/location.controller';
+import { WeatherController } from '../controllers/weather.controller';
 import { AppService } from '../services/app.service';
-import { AuthService } from '../services/auth-service';
-import { EmployeeManagementService } from '../services/employee-management.service';
-import { SecurityUtilityService } from '../utility/security-utils';
+import { LocationService } from '../services/location.service';
+import { WeatherService } from '../services/weather.service';
 
 export const AppModuleControllers = [
   AppController,
-  EmployeeManagementController,
-  AuthController,
+  WeatherController,
+  LocationController,
 ];
 
-export const AppModuleService = [
-  AppService,
-  EmployeeManagementService,
-  SecurityUtilityService,
-  AuthService,
-];
+export const AppModuleService = [AppService, WeatherService, LocationService];
