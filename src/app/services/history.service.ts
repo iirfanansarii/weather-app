@@ -1,9 +1,11 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { HistoryDto } from '../utility/dto/history.dto';
 import axios from 'axios';
 
 @Injectable()
 export class HistoryService {
+  private readonly logger = new Logger(HistoryService.name);
+
   /**
    * @description get weather hourly historical data
    * @param latitude
@@ -24,6 +26,7 @@ export class HistoryService {
       const weatherHistoryBaseUrl = process.env.WEATHER_HISTORY_BASE_URL;
       const url = `${weatherHistoryBaseUrl}?lat=${latitude}&lon=${longitude}&type=${type}&start=${start}&end=${end}&appid=${apiKey}`;
       const response = await axios.get(url);
+      this.logger.log(`GET ${url}`);
       return response.data;
     } catch (error: any) {
       throw new HttpException(
