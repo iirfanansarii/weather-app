@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { WeatherDto } from '../utility/dto/weather.dto';
 import { WeatherService } from '../services/weather.service';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('weather')
 export class WeatherController {
@@ -12,6 +13,7 @@ export class WeatherController {
    * @param lon:longitude
    * @returns weather forecast
    */
+  @Throttle({ default: { limit: 3, ttl: 10 } })
   @Get('forecast')
   async getWeatherForecast(
     @Query('lat') lat: number,

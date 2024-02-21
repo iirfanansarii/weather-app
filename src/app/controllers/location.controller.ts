@@ -14,7 +14,9 @@ import {
   UpdateLocationDto,
 } from '../utility/dto/location.dto';
 import { LocationService } from '../services/location.service';
+import { SkipThrottle } from '@nestjs/throttler';
 
+@SkipThrottle()
 @Controller('locations')
 export class LocationController {
   constructor(private locationService: LocationService) {}

@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { HistoryDto } from '../utility/dto/history.dto';
 import { HistoryService } from '../services/history.service';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('history')
 export class HistoryController {
@@ -14,6 +15,7 @@ export class HistoryController {
    * @param end
    * @returns
    */
+  @Throttle({ default: { limit: 3, ttl: 10 } })
   @Get()
   async getHistoricalData(
     @Query('lat') latitude: number,
