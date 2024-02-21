@@ -71,7 +71,6 @@ export class LocationController {
    * @param locationId
    * @returns
    */
-
   @Delete(':location_id')
   async deleteLocation(
     @Param('location_id') locationId: string,

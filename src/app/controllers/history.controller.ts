@@ -18,12 +18,14 @@ export class HistoryController {
   async getHistoricalData(
     @Query('lat') latitude: number,
     @Query('lon') longitude: number,
+    @Query('type') type: string,
     @Query('start') start: number,
     @Query('end') end: number,
   ): Promise<HistoryDto[]> {
     return this.historyService.getHistoricalData(
       latitude,
       longitude,
+      type,
       start,
       end,
     );

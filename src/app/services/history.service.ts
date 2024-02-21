@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { HistoryDto } from '../utility/dto/history.dto';
 import axios from 'axios';
 
@@ -15,18 +15,21 @@ export class HistoryService {
   async getHistoricalData(
     latitude: number,
     longitude: number,
+    type: string,
     start: number,
     end: number,
   ): Promise<HistoryDto[]> {
     try {
       const apiKey = process.env.WEATHER_APP_API_KEY || '';
       const weatherHistoryBaseUrl = process.env.WEATHER_HISTORY_BASE_URL;
-      const response = await axios.get(
-        `${weatherHistoryBaseUrl}?lat=${latitude}&lon=${longitude}&type=hour&start=${start}&end=${end}&appid=${apiKey}`,
-      );
+      const url = `${weatherHistoryBaseUrl}?lat=${latitude}&lon=${longitude}&type=${type}&start=${start}&end=${end}&appid=${apiKey}`;
+      const response = await axios.get(url);
       return response.data;
-    } catch (error) {
-      throw new Error('Failed to fetch historical data');
+    } catch (error: any) {
+      throw new HttpException(
+        { message: error.response.data.message },
+        error.response.data.code,
+      );
     }
   }
 }

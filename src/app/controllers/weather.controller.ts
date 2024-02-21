@@ -10,15 +10,13 @@ export class WeatherController {
    * get weather forecast based on location id
    * @param lat:latitude
    * @param lon:longitude
-   * @param cnt:count
-   * @returns list of weather forecast
+   * @returns weather forecast
    */
   @Get('forecast')
   async getWeatherForecast(
     @Query('lat') lat: number,
     @Query('lon') lon: number,
-    @Query('cnt') cnt: number,
   ): Promise<WeatherDto[]> {
-    return this.weatherService.getWeatherForecast(lat, lon, cnt);
+    return this.weatherService.getWeatherForecast(lat, lon);
   }
 }
