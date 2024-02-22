@@ -13,8 +13,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
     HttpModule,
     ThrottlerModule.forRoot([
       {
-        ttl: 10, // seconds
-        limit: 2, // request limit in every 60 seconds
+        ttl: 10,
+        limit: 2,
       },
     ]),
   ],

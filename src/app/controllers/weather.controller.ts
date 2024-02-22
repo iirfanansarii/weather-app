@@ -2,7 +2,9 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { WeatherDto } from '../utility/dto/weather.dto';
 import { WeatherService } from '../services/weather.service';
 import { Throttle } from '@nestjs/throttler';
+import { client } from '../utility/redis/client';
 
+@Throttle({ default: { limit: 3, ttl: 60000 } })
 @Controller('weather')
 export class WeatherController {
   constructor(private readonly weatherService: WeatherService) {}
@@ -13,12 +15,19 @@ export class WeatherController {
    * @param lon:longitude
    * @returns weather forecast
    */
-  @Throttle({ default: { limit: 3, ttl: 10 } })
   @Get('forecast')
   async getWeatherForecast(
     @Query('lat') lat: number,
     @Query('lon') lon: number,
   ): Promise<WeatherDto[]> {
-    return this.weatherService.getWeatherForecast(lat, lon);
+    const cachedWeatherForecastData = await client.get('weatherForecastData');
+    if (cachedWeatherForecastData) return JSON.parse(cachedWeatherForecastData);
+    const weatherForecastRes = await this.weatherService.getWeatherForecast(
+      lat,
+      lon,
+    );
+    await client.set('weatherForecastData', JSON.stringify(weatherForecastRes));
+    await client.expire('weatherForecastData', 30);
+    return weatherForecastRes;
   }
 }
